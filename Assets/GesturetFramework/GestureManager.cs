@@ -7,7 +7,7 @@ namespace GestureLibrary
 	public class GestureManager : MonoBehaviour 
 	{
 		/// <summary>
-		/// タッチ情報更新（キャッシュ）
+		/// タッチ情報（キャッシュ）
 		/// </summary>
 		List<GestureInfo> gestureInfo = new List<GestureInfo> ();
 
@@ -146,7 +146,7 @@ namespace GestureLibrary
 
 			// Error Check
 			if (info.Count == 0) {
-				Debug.LogWarning ("【Invalid Call】It is not assumed");
+				Debug.LogWarning ("【Invalid Call】");
 				return false;
 			}
 
@@ -159,10 +159,6 @@ namespace GestureLibrary
 		/// <returns><c>true</c>, if for mouse was input, <c>false</c> otherwise.</returns>
 		/// <param name="info">Info.</param>
 		bool InputForMouse (ref List<GestureInfo> info) {
-			#if UNITY_EDITOR
-			Debug.LogWarning("【Call Check】Input For Mouse");
-			#endif
-
 			if (Input.GetKeyDown (KeyCode.RightAlt) || Input.GetKeyDown (KeyCode.LeftAlt)) {
 				Debug.Log ("Alt key Down");
 			} else if (Input.GetKeyUp (KeyCode.RightAlt) || Input.GetKeyUp (KeyCode.LeftAlt)) {
@@ -170,13 +166,10 @@ namespace GestureLibrary
 			}
 				
 			if (Input.GetMouseButtonDown (0)) { // Mouse Click Down Eent
-				#if UNITY_EDITOR
-				Debug.LogWarning("【Call Check】Mouse Down");
-				#endif
 				for (int i = 0; i < info.Count; i++) {
 					// Error Check
 					if (info [i].TouchId == -1) {
-						Debug.LogWarning ("【Invalid Call】Second time of MouseButtonDown was called");
+						Debug.LogWarning ("【Invalid Call】");
 						info [i].IsDown = true;
 						info [i].CurrentScreenPosition = Input.mousePosition;
 						return true;
@@ -211,10 +204,6 @@ namespace GestureLibrary
 
 				return true;
 			} else if (Input.GetMouseButtonUp (0)) { // Mouse Click Up Event
-				#if UNITY_EDITOR
-				Debug.LogWarning("【Call Check】Mouse Up");
-				#endif
-
 				for (int i = 0; i < info.Count; i++) {
 					if (info [i].TouchId == -1) {
 						info [i].IsUp = true;
@@ -239,16 +228,9 @@ namespace GestureLibrary
 						return true;
 					}
 				}
-					
-				#if UNITY_EDITOR
-				Debug.LogWarning ("【Invalid Call】Target touchID isn't found");
-				#endif
+
 				return true;
 			} else if (Input.GetMouseButton (0)) { // Mouse Click Stay Down Event
-				#if UNITY_EDITOR
-				Debug.LogWarning("【Call Check】Mouse Drag");
-				#endif
-
 				for (int i = 0; i < info.Count; i++) {
 					if (info [i].TouchId == -1) {
 						info [i].IsDrag = true;
@@ -296,9 +278,6 @@ namespace GestureLibrary
 					}
 				}
 
-				#if UNITY_EDITOR
-				Debug.LogWarning ("【Invalid Call】Target touchID isn't found");
-				#endif
 				return true;
 			}
 
@@ -313,13 +292,9 @@ namespace GestureLibrary
 		}
 
 		/// <summary>
-		/// Show Debug Flag
+		/// デバッグ用
 		/// </summary>
 		public bool showDebug = false;
-
-		/// <summary>
-		/// Raises the GU event.
-		/// </summary>
 		void OnGUI() {
 			if (showDebug) {
 				int x = 0;

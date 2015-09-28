@@ -27,13 +27,6 @@ namespace GestureLibrary
 				index = controllers.Count;
 			}
 			controllers.Insert (index, controller);
-
-			#if UNITY_EDITOR
-			//登録できているかの確認
-			if(controllers.IndexOf(controller) < 0) {
-				Debug.LogWarning("Register Contoller is failed");
-			}
-			#endif
 		}
 
 		/// <summary>
@@ -42,13 +35,6 @@ namespace GestureLibrary
 		/// <param name="controller">Controller.</param>
 		public void RemoveController (IGestureController controller) {
 			controllers.Remove (controller);
-
-			#if UNITY_EDITOR
-			//登録解除できているかの確認
-			if(controllers.IndexOf(controller) >= 0) {
-				Debug.LogWarning("Unregister Contoller is failed");
-			}
-			#endif
 		}
 			
 		/// <summary>
@@ -64,7 +50,7 @@ namespace GestureLibrary
 				} else if (info [i].IsDrag) {
 					DoDrag (info [i]);
 				} else {
-					Debug.LogWarning ("【Invalid Call】It is not assumed");
+					Debug.LogWarning ("【Invalid Call】");
 				}
 			}
 		}
