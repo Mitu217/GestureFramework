@@ -30,3 +30,4 @@
 * GestureManagerに登録できる数は特に制限していませんが、あまり登録しすぎると動作に影響がでるかもしれません
 * GestureControllerからGestureManagerにキャンセル命令(BreakTouchEvent)を呼ぶことで、それ以降の優先度が低いGestureControllerの処理を飛ばせます
 * GestureControllerのIsGestureProcessでfalseを返すと処理を飛ばすこともできます
+* サンプルのGestureControllerもあるのでそちらも参考までに
