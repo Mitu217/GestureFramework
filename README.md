@@ -1,4 +1,4 @@
-テストversion: 5.1.1~
+動作確認Unity: ver5.1.1~
 
 # Gesture Framework
 
@@ -23,6 +23,7 @@
 * GestureManagerをAddComponentしたオブジェクトをシーン中に配置してください
 * GestureManagerはタッチイベントを検知後、登録されたコントローラーを優先度の小さい数字から処理していきます
 * GestureManagerはシングルトンクラスとして定義されています
+
 ### GestureControllerの追加
 * GestureControllerはインターフェイスIGestureContollerを継承しているスクリプトです。
 * GestureControllerはGestureManagerに登録することでタッチイベント発生時にイベント（OnGestureDownなど）が呼ばれます
