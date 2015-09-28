@@ -163,6 +163,12 @@ namespace GestureLibrary
 			Debug.LogWarning("【Call Check】Input For Mouse");
 			#endif
 
+			if (Input.GetKeyDown (KeyCode.RightAlt) || Input.GetKeyDown (KeyCode.LeftAlt)) {
+				Debug.Log ("Alt key Down");
+			} else if (Input.GetKeyUp (KeyCode.RightAlt) || Input.GetKeyUp (KeyCode.LeftAlt)) {
+				Debug.Log ("Alt key Up");
+			}
+				
 			if (Input.GetMouseButtonDown (0)) { // Mouse Click Down Eent
 				#if UNITY_EDITOR
 				Debug.LogWarning("【Call Check】Mouse Down");
@@ -185,6 +191,24 @@ namespace GestureLibrary
 				gi.IsUp = false;
 				gi.IsDrag = false;
 				info.Add(gi);
+
+				#if UNITY_EDITOR
+				if (Input.GetKeyDown (KeyCode.RightAlt) 
+					|| Input.GetKeyDown (KeyCode.LeftAlt) 
+					|| Input.GetKey(KeyCode.RightAlt) 
+					|| Input.GetKey(KeyCode.LeftAlt)) {
+					GestureInfo demoGi = new GestureInfo ();
+					demoGi.TouchId = -2;
+					Vector3 demoPos 
+						= new Vector2(Screen.width-Input.mousePosition.x,  Screen.height-Input.mousePosition.y);
+					demoGi.CurrentScreenPosition = demoPos;
+					demoGi.IsDown = true;
+					demoGi.IsUp = false;
+					demoGi.IsDrag = false;
+					info.Add(demoGi);
+				} 
+				#endif
+
 				return true;
 			} else if (Input.GetMouseButtonUp (0)) { // Mouse Click Up Event
 				#if UNITY_EDITOR
@@ -195,6 +219,23 @@ namespace GestureLibrary
 					if (info [i].TouchId == -1) {
 						info [i].IsUp = true;
 						info [i].CurrentScreenPosition = Input.mousePosition;
+
+						#if UNITY_EDITOR
+						if (Input.GetKeyUp (KeyCode.RightAlt) 
+							|| Input.GetKeyUp (KeyCode.LeftAlt) 
+							|| Input.GetKey(KeyCode.RightAlt) 
+							|| Input.GetKey(KeyCode.LeftAlt)) {
+							for (int j = 0; j < info.Count; j++) {
+								if (info [j].TouchId == -2) {
+									info [j].IsUp = true;
+									Vector3 demoPos 
+										= new Vector2(Screen.width-Input.mousePosition.x,  Screen.height-Input.mousePosition.y);
+									info [j].CurrentScreenPosition = demoPos;
+								}
+							}
+						} 
+						#endif
+
 						return true;
 					}
 				}
@@ -212,6 +253,45 @@ namespace GestureLibrary
 					if (info [i].TouchId == -1) {
 						info [i].IsDrag = true;
 						info [i].CurrentScreenPosition = Input.mousePosition;
+
+						#if UNITY_EDITOR
+						if (Input.GetKeyUp (KeyCode.RightAlt) || Input.GetKeyUp (KeyCode.LeftAlt)){
+							for (int j = 0; j < info.Count; j++) {
+								if (info [j].TouchId == -2) {
+									info [j].IsUp = true;
+									Vector3 demoPos 
+										= new Vector2(Screen.width-Input.mousePosition.x,  Screen.height-Input.mousePosition.y);
+									info [j].CurrentScreenPosition = demoPos;
+								}
+							}
+							return true;
+						}
+						if (Input.GetKey(KeyCode.RightAlt) || Input.GetKey(KeyCode.LeftAlt)) {
+							if (Input.GetKeyDown (KeyCode.RightAlt) 
+								|| Input.GetKeyDown (KeyCode.LeftAlt)){
+								GestureInfo demoGi = new GestureInfo ();
+								demoGi.TouchId = -2;
+								Vector3 demoPos 
+									= new Vector2(Screen.width-Input.mousePosition.x,  Screen.height-Input.mousePosition.y);
+								demoGi.CurrentScreenPosition = demoPos;
+								demoGi.IsDown = true;
+								demoGi.IsUp = false;
+								demoGi.IsDrag = false;
+								info.Add(demoGi);
+								return true;
+							}
+							for (int j = 0; j < info.Count; j++) {
+								if (info [j].TouchId == -2) {
+									info [j].IsDrag = true;
+									Vector3 demoPos 
+										= new Vector2(Screen.width-Input.mousePosition.x,  Screen.height-Input.mousePosition.y);
+									info [j].CurrentScreenPosition = demoPos;
+								}
+							}
+							return true;
+						} 
+						#endif
+
 						return true;
 					}
 				}
